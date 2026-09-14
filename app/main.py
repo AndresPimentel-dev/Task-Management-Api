@@ -7,7 +7,7 @@ import jwt
 
 from app.database import engine, Base, get_db
 from app.models import User, Task, Workspace
-from app.schemas import UserCreate, UserResponse, TaskCreate, TaskResponse, Token
+from app.schemas import UserCreate, TaskCreate, Token
 from app.auth import verify_password, get_password_hash, create_access_token, SECRET_KEY, ALGORITHM
 
 # Crear las tablas en la base de datos si no existen
@@ -20,7 +20,7 @@ app = FastAPI(
 )
 
 # Configuración del esquema de seguridad para Swagger UI (/docs)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 # Dependencia para obtener el usuario actual autenticado a través del Token JWT
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
@@ -47,7 +47,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 #          ENDPOINTS DE AUTENTICACIÓN
 # ==========================================
 
-@app.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+@app.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     # Verificar si el correo ya está registrado
     db_user = db.query(User).filter(User.email == user_data.email).first()
@@ -111,7 +111,7 @@ def list_workspaces(db: Session = Depends(get_db), current_user: User = Depends(
 #          CRUD DE TAREAS (PROTEGIDO)
 # ==========================================
 
-@app.post("/tasks", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
+@app.post("/tasks", status_code=status.HTTP_201_CREATED)
 def create_task(task_data: TaskCreate, workspace_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Buscamos si el workspace existe antes de meter la tarea
     workspace = db.query(Workspace).filter(Workspace.id == workspace_id).first()
@@ -130,12 +130,12 @@ def create_task(task_data: TaskCreate, workspace_id: int, db: Session = Depends(
     db.refresh(new_task)
     return new_task
 
-@app.get("/tasks", response_model=List[TaskResponse])
+@app.get("/tasks")
 def read_tasks(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Corrección: Cambiar Task.owner_id por Task.assignee_id
     return db.query(Task).filter(Task.assignee_id == current_user.id).all()
 
-@app.get("/tasks/{task_id}", response_model=TaskResponse)
+@app.get("/tasks/{task_id}")
 def read_task(task_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Corrección: Cambiar Task.owner_id por Task.assignee_id
     task = db.query(Task).filter(Task.id == task_id, Task.assignee_id == current_user.id).first()
@@ -143,7 +143,7 @@ def read_task(task_id: int, db: Session = Depends(get_db), current_user: User = 
         raise HTTPException(status_code=404, detail="Task not found or unauthorized")
     return task
 
-@app.put("/tasks/{task_id}", response_model=TaskResponse)
+@app.put("/tasks/{task_id}")
 def update_task(task_id: int, task_data: TaskCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     # Corrección: Cambiar Task.owner_id por Task.assignee_id
     task = db.query(Task).filter(Task.id == task_id, Task.assignee_id == current_user.id).first()
