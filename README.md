@@ -46,8 +46,6 @@ A robust backend for task and workspace management, designed for scalability, pe
 
 ---
 
----
-
 ## 🎯 Project Scope
 
 This is a **junior-level backend project** created to demonstrate the ability to build and organize a basic REST API.
