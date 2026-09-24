@@ -42,7 +42,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/taskforge_db
       - SECRET_KEY=${SECRET_KEY}
-    command: alembic upgrade head
+    command: sleep 10 && alembic upgrade head
     depends_on:
       db:
         condition: service_started
