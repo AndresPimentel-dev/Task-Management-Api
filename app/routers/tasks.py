@@ -13,7 +13,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1.0/auth/login")
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme), # noqa: B008
+    token: str = Depends(oauth2_scheme),  # noqa: B008
     db: Session = Depends(get_db),  # noqa: B008
 ):
     credentials_exception = HTTPException(
@@ -70,7 +70,7 @@ def create_task(
 
 @router.get("/tasks", status_code=200, response_model=TasksListResponse)
 def read_tasks(
-    db: Session = Depends(get_db), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
     current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     tasks = db.query(TasksTable).filter(TasksTable.assignee_id == current_user.id).all()

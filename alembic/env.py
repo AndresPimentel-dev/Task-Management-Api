@@ -6,7 +6,8 @@ from alembic import context
 from app.config import settings
 from app.database import Base
 
-# toca importar al menos una vex las tablas para que alembic pueda verlas y hacer las migraciones
+# toca importar al menos una vex las tablas para que alembic 
+# pueda verlas y hacer las migraciones
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

@@ -27,7 +27,8 @@ SessionTesting = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 
 @pytest.fixture(autouse=True)
 def create_tables():
-    # usamos ahora las migraciones de alembic para reemplazar el base.metadata.create_all()
+    # usamos ahora las migraciones de alembic 
+    # para reemplazar el base.metadata.create_all()
     alembic_cfg = Config("alembic.ini")
     command.upgrade(alembic_cfg, "head")
     yield
