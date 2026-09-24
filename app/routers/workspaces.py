@@ -45,6 +45,7 @@ def create_workspace(
         name=workspace_data.name,
         description=workspace_data.description,
         owner_id=current_user.id,
+        created_at=workspace_data.created_at
     )
     db.add(new_workspace)
     db.commit()
@@ -53,6 +54,7 @@ def create_workspace(
         "id": new_workspace.id,
         "name": new_workspace.name,
         "description": new_workspace.description,
+        "created_at": new_workspace.created_at,
         "owner_id": new_workspace.owner_id,
     }
 
@@ -67,6 +69,8 @@ def list_workspaces(
         .filter(WorkspacesTable.owner_id == current_user.id)
         .all()
     )
+    if workspaces is None:
+        raise HTTPException(status_code=404, detail="Not Found")
 
     return {"workspaces": workspaces}
 
@@ -87,14 +91,13 @@ def read_task(
         )
         .first()
     )
-    if not workspace:
-        raise HTTPException(
-            status_code=404, detail="Workspace not found or unauthorized"
-        )
+    if workspace is None:
+        raise HTTPException(status_code=404, detail="Not Found")
     return {
         "id": workspace.id,
         "name": workspace.name,
         "description": workspace.description,
+        "created_at": workspace.created_at,
         "owner_id": workspace.owner_id,
     }
 
@@ -121,6 +124,7 @@ def update_task(
 
     workspace.name = workspace_data.name
     workspace.description = workspace_data.description
+    workspace.created_at = workspace_data.created_at
     workspace.owner_id = current_user.id
 
     db.commit()
@@ -129,6 +133,7 @@ def update_task(
         "id": workspace.id,
         "name": workspace.name,
         "description": workspace.description,
+        "created_at": workspace.created_at,
         "owner_id": workspace.owner_id,
     }
 

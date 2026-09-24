@@ -164,7 +164,8 @@ def test_endpoint_create_workspace(cliente):
     access_token = peyload.json()["access_token"]
     response = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
 
@@ -184,10 +185,11 @@ def test_get_workspaces(cliente):
     )
     access_token = peyload_registrarse.json()["access_token"]
     cliente.post(
-        "/api/v1.0/workspaces",
-        json={"name": "fakeworkspace", "description": "fakedescription"},
-        headers={"Authorization": f"Bearer {access_token}"},
-    )
+            "/api/v1.0/workspaces",
+            json={"name": "fakenombre", "description": "fakedescriopansd",
+                  "created_at": "2026-06-25"},
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
     response = cliente.get(
         "/api/v1.0/workspaces", headers={"Authorization": f"Bearer {access_token}"}
     )
@@ -209,7 +211,8 @@ def test_delete_workspace(cliente):
     access_token = peyload_registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     response = cliente.delete(
@@ -232,7 +235,8 @@ def test_get_workspaces_by_id(cliente):
     access_token = registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     payload = cliente.get(
@@ -258,12 +262,14 @@ def test_update_workspaces(cliente):
     access_token = registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     payload = cliente.put(
         f"/api/v1.0/workspaces/{workspace.json()['id']}",
-        json={"name": "fakenewnombre", "description": "fakenewdescripcion"},
+        json={"name": "fakenewnombre", "description": "fakenewdescripcion",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
 
@@ -275,7 +281,8 @@ def test_update_workspaces(cliente):
 def test_create_workspace_without_token(cliente):
     response = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescripcion"},
+        json={"name": "fakenombre", "description": "fakedescripcion",
+              "created_at": "2026-06-25"},
     )
 
     assert response.status_code == 401
@@ -299,7 +306,8 @@ def test_get_non_existing_workspace(cliente):
     access_token = peyload_register.json()["access_token"]
     cliente.post(
         "/api/v1.0/workspaces",
-        json={"username": "fakenombre", "description": "fakedescription"},
+        json={"username": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     response = cliente.get(
@@ -331,7 +339,8 @@ def test_userA_cannot_delete_userB_workspace(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspaceUsuarioB = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     response = cliente.delete(
@@ -380,7 +389,8 @@ def test_userA_cannot_get_userB_workspace(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspaceUsuarioB = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     UsuarioA_payload = cliente.get(
@@ -411,7 +421,8 @@ def test_userA_cannor_update_userB_workspace(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspaceUsuarioB = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescription"},
+        json={"name": "fakenombre", "description": "fakedescription",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     response = cliente.put(
@@ -420,6 +431,7 @@ def test_userA_cannor_update_userB_workspace(cliente):
             "username": "fakenewnombre",
             "deadline": "2027-09-29",
             "description": "fakenewdescripcion",
+            "created_at": "2026-06-25"
         },
         headers={"Authorization": f"Bearer {tokenusuarioA}"},
     )
@@ -471,7 +483,8 @@ def test_endpoint_create_task(cliente):
     access_token = peyload.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-02-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
 
@@ -479,8 +492,8 @@ def test_endpoint_create_task(cliente):
         "/api/v1.0/tasks",
         json={
             "title": "fakenombre",
-            "description": "fakedescription",
-            "status": "pending",
+            "description": "fakedescription", "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -504,7 +517,8 @@ def test_get_tasks(cliente):
     access_token = peyload_registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     cliente.post(
@@ -512,7 +526,8 @@ def test_get_tasks(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -539,7 +554,8 @@ def test_delete_tasks(cliente):
 
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     tarea = cliente.post(
@@ -547,7 +563,8 @@ def test_delete_tasks(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -572,7 +589,8 @@ def test_get_tasks_by_id(cliente):
     access_token = registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     tarea = cliente.post(
@@ -580,7 +598,8 @@ def test_get_tasks_by_id(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -593,7 +612,7 @@ def test_get_tasks_by_id(cliente):
     assert payload is not None
     assert payload.status_code == 200
     assert payload.json()["title"] == "fakenombre"
-    assert payload.json()["status"] == "pending"
+    assert payload.json()["status"] == "todo"
 
 
 def test_update_tasks(cliente):
@@ -609,7 +628,8 @@ def test_update_tasks(cliente):
     access_token = registrarse.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {access_token}"},
     )
     tarea = cliente.post(
@@ -617,7 +637,8 @@ def test_update_tasks(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -627,7 +648,8 @@ def test_update_tasks(cliente):
         json={
             "title": "fakenewnombre",
             "description": "fakenewdescription",
-            "status": "Done",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {access_token}"},
@@ -644,7 +666,8 @@ def test_create_task_without_token(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": 1,
         },
     )
@@ -670,7 +693,7 @@ def test_get_non_existing_tasks(cliente):
     access_token = peyload_register.json()["access_token"]
 
     response = cliente.get(
-        f"/api/v1.0/workspaces{9999}",
+        f"/api/v1.0/tasks/{9999}",
         headers={"Authorization": f"Bearer {access_token}"},
     )
 
@@ -699,7 +722,8 @@ def test_userA_cannot_delete_userB_tasks(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     tasksauserB = cliente.post(
@@ -707,7 +731,8 @@ def test_userA_cannot_delete_userB_tasks(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
@@ -759,7 +784,8 @@ def test_userA_cannot_get_userB_task(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     tasksauserB = cliente.post(
@@ -767,7 +793,8 @@ def test_userA_cannot_get_userB_task(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
@@ -801,7 +828,8 @@ def test_userA_cannor_update_userB_tasks(cliente):
     tokenUsuarioB = usuarioB.json()["access_token"]
     workspace = cliente.post(
         "/api/v1.0/workspaces",
-        json={"name": "fakenombre", "description": "fakedescriopansd"},
+        json={"name": "fakenombre", "description": "fakedescriopansd",
+              "created_at": "2026-06-25"},
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},
     )
     tasksauserB = cliente.post(
@@ -809,7 +837,8 @@ def test_userA_cannor_update_userB_tasks(cliente):
         json={
             "title": "fakenombre",
             "description": "fakedescription",
-            "status": "pending",
+            "created_at": "2026-02-25",
+            "status": "todo",
             "workspace_id": int(workspace.json()["id"]),
         },
         headers={"Authorization": f"Bearer {tokenUsuarioB}"},

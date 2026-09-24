@@ -1,19 +1,25 @@
-from sqlalchemy import ForeignKey, String
+from datetime import date
+from sqlalchemy import Date, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
 
+from datetime import date
+from sqlalchemy import String, Date, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
+
 class UsersTable(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(String(50))
-    email: Mapped[str] = mapped_column(String(50))
+    username: Mapped[str] = mapped_column(String(50), unique=True)
+    email: Mapped[str] = mapped_column(String(50), unique=True)
     hashed_password: Mapped[str] = mapped_column(String)
 
+    # Relaciones corregidas
     workspaces: Mapped[list["WorkspacesTable"]] = relationship(back_populates="owner")
-
+    tasks: Mapped[list["TasksTable"]] = relationship(back_populates="assignee")
 
 class WorkspacesTable(Base):
     __tablename__ = "workspaces"
@@ -21,11 +27,12 @@ class WorkspacesTable(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50))
     description: Mapped[str] = mapped_column(String(50))
+    created_at: Mapped[date] = mapped_column(Date())
 
     owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    
     owner: Mapped["UsersTable"] = relationship(back_populates="workspaces")
     tasks: Mapped[list["TasksTable"]] = relationship(back_populates="workspace")
-
 
 class TasksTable(Base):
     __tablename__ = "tasks"
@@ -34,7 +41,10 @@ class TasksTable(Base):
     title: Mapped[str] = mapped_column(String(50))
     description: Mapped[str] = mapped_column(String(50))
     status: Mapped[str] = mapped_column(String(50))
+    created_at: Mapped[date] = mapped_column(Date())
 
     workspace_id: Mapped[int] = mapped_column(ForeignKey("workspaces.id"))
     assignee_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    
     workspace: Mapped["WorkspacesTable"] = relationship(back_populates="tasks")
+    assignee: Mapped["UsersTable"] = relationship(back_populates="tasks")

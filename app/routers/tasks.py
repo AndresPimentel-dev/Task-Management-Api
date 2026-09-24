@@ -51,7 +51,8 @@ def create_task(
     new_task = TasksTable(
         title=task_data.title,
         description=task_data.description,
-        status=task_data.status or "Todo",
+        status=task_data.status or "todo",
+        created_at=task_data.created_at,
         workspace_id=workspace.id,
         assignee_id=current_user.id,
     )
@@ -63,6 +64,7 @@ def create_task(
         "title": new_task.title,
         "description": new_task.description,
         "status": new_task.status,
+        "created_at": new_task.created_at,
         "workspace_id": new_task.workspace_id,
         "assignee_id": new_task.assignee_id,
     }
@@ -74,6 +76,8 @@ def read_tasks(
     current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     tasks = db.query(TasksTable).filter(TasksTable.assignee_id == current_user.id).all()
+    if tasks is None:
+        raise HTTPException(status_code=404, detail="Not Found")
 
     return {"tasks": tasks}
 
@@ -96,6 +100,7 @@ def read_task(
         "title": task.title,
         "description": task.description,
         "status": task.status,
+        "created_at": task.created_at,
         "workspace_id": task.workspace_id,
         "assignee_id": task.assignee_id,
     }
@@ -118,6 +123,7 @@ def update_task(
     task.title = task_data.title
     task.description = task_data.description
     task.status = task_data.status
+    task.created_at = task_data.created_at
 
     db.commit()
     db.refresh(task)
@@ -126,6 +132,7 @@ def update_task(
         "title": task.title,
         "description": task.description,
         "status": task.status,
+        "created_at": task.created_at,
         "workspace_id": task.workspace_id,
         "assignee_id": task.assignee_id,
     }
