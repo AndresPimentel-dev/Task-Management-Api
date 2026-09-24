@@ -5,8 +5,8 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from app.config import settings
 from app.database import Base
+
 #por obligacion  para que vea las tablas antes del head
-from app.models import TasksTable, UsersTable, WorkspacesTable
 
 # toca importar al menos una vex las tablas para que alembic 
 # pueda verlas y hacer las migraciones

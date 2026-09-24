@@ -10,11 +10,11 @@ from sqlalchemy.orm import sessionmaker
 from alembic import command
 
 os.environ["DATABASE_URL"] = "sqlite:///./testbase.db"
-os.environ["SECRET_KEY"] = ("askfgjdgasdfgkgasdkhfhjfgsdakhgasdhfjhasdgfjdafvgasdfhjhsafsjdsdavfokmasvbfkasdvfafiopj") # noqa: E501
+os.environ["SECRET_KEY"] = ("askfgjdgasdfgkgasdkhfhjfgsdakhgasdhfjhasdgfjdafvgasdfhjhsafsjdsdavfokmasvbfkasdvfafiopj")
 os.environ["access_token_expire_minutes"] = "30"
 
-from app.database import get_db # noqa: E402
-from app.main import app # noqa: E402
+from app.database import get_db
+from app.main import app
 
 load_dotenv()
 

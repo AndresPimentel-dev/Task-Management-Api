@@ -1,13 +1,10 @@
 from datetime import date
+
 from sqlalchemy import Date, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
-
-from datetime import date
-from sqlalchemy import String, Date, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
 
 class UsersTable(Base):
     __tablename__ = "users"
