@@ -1,4 +1,15 @@
+# Python
 __pycache__/
-venv/
-.env
 *.pyc
+.pytest_cache/
+.venv/
+venv/
+
+.env
+postgres_data/
+
+# IDEs
+.vscode/
+.idea/
+testbase.db
+test.db

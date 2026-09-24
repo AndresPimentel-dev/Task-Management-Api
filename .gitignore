@@ -5,10 +5,11 @@ __pycache__/
 .venv/
 venv/
 
-# Docker & DB (Si creas archivos locales de datos)
 .env
 postgres_data/
 
 # IDEs
 .vscode/
 .idea/
+testbase.db
+test.db
