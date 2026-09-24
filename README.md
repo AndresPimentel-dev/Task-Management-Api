@@ -1,4 +1,4 @@
-# TaskForge API
+# Task Management Api
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
@@ -80,23 +80,16 @@ Ensure you have **Docker** and **Docker Compose** installed on your system.
    ```bash
    docker compose up --build
 
-## 🔎 API Documentation
+## 💻 Testing
 
 1. Create a virtual enviroment
 2. Run testing:
    ```bash
    pip install -r requirements && python -m pytest
 
+## 🔎 API Documentation
 
 http://localhost:8000/docs
-
-## 💻 Testing
-
-## 🎯 Project Scope
-
-This is a **junior-level backend project** created to demonstrate the ability to build and organize a basic REST API.
-
-It is not intended to be presented as a production-ready system. Instead, it serves as a foundation for progressively more advanced projects involving authentication, testing, architecture, deployment, and scalability.
 
 ---
 
@@ -121,6 +114,12 @@ It is not intended to be presented as a production-ready system. Instead, it ser
 | `POST`          | `/api/v1.0/tasks`            | Create a newtask  |
 | `PUT` / `PATCH` | `/api/v1.0/tasks{task_id}`   | Update atask      |
 | `DELETE`        | `/api/v1.0/tasks{task_id}`   | Delete atask      |
+
+## 🎯 Project Scope
+
+This is a **junior-level backend project** created to demonstrate the ability to build and organize a basic REST API.
+
+It is not intended to be presented as a production-ready system. Instead, it serves as a foundation for progressively more advanced projects involving authentication, testing, architecture, deployment, and scalability.
 
 ## 📄 License
 
