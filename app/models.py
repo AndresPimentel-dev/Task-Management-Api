@@ -14,6 +14,7 @@ class UsersTable(Base):
 
     workspaces: Mapped[list["WorkspacesTable"]] = relationship(back_populates="owner")
 
+
 class WorkspacesTable(Base):
     __tablename__ = "workspaces"
 
@@ -24,6 +25,7 @@ class WorkspacesTable(Base):
     owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     owner: Mapped["UsersTable"] = relationship(back_populates="workspaces")
     tasks: Mapped[list["TasksTable"]] = relationship(back_populates="workspace")
+
 
 class TasksTable(Base):
     __tablename__ = "tasks"
@@ -36,4 +38,3 @@ class TasksTable(Base):
     workspace_id: Mapped[int] = mapped_column(ForeignKey("workspaces.id"))
     assignee_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     workspace: Mapped["WorkspacesTable"] = relationship(back_populates="tasks")
-
