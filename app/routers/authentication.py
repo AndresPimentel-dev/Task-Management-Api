@@ -37,8 +37,9 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):  # noqa
 
 @router.post("/auth/login", status_code=200, response_model=TokenResponse)
 def login(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db) # noqa: B008
-): 
+    form_data: OAuth2PasswordRequestForm = Depends(), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
+):
     user = (
         db.query(UsersTable).filter(UsersTable.username == form_data.username).first()
     )

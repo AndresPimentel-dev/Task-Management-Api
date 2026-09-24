@@ -13,7 +13,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1.0/auth/login")
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db) # noqa: B008
+    token: str = Depends(oauth2_scheme), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
 ):
     credentials_exception = HTTPException(
         status_code=401,
@@ -37,8 +38,8 @@ def get_current_user(
 @router.post("/workspaces", status_code=201, response_model=WorkspaceResponse)
 def create_workspace(
     workspace_data: WorkspaceCreate,
-    db: Session = Depends(get_db), # noqa: B008
-    current_user: UsersTable = Depends(get_current_user), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
+    current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     new_workspace = WorkspacesTable(
         name=workspace_data.name,
@@ -58,7 +59,8 @@ def create_workspace(
 
 @router.get("/workspaces", status_code=200, response_model=WorkspacesListResponse)
 def list_workspaces(
-    db: Session = Depends(get_db), current_user: UsersTable = Depends(get_current_user) # noqa: B008
+    db: Session = Depends(get_db), # noqa: B008
+    current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     workspaces = (
         db.query(WorkspacesTable)
@@ -74,8 +76,8 @@ def list_workspaces(
 )
 def read_task(
     workspace_id: int,
-    db: Session = Depends(get_db), # noqa: B008
-    current_user: UsersTable = Depends(get_current_user), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
+    current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     workspace = (
         db.query(WorkspacesTable)
@@ -103,8 +105,8 @@ def read_task(
 def update_task(
     workspace_id: int,
     workspace_data: WorkspaceCreate,
-    db: Session = Depends(get_db), # noqa: B008
-    current_user: UsersTable = Depends(get_current_user), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
+    current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     workspace = (
         db.query(WorkspacesTable)
@@ -134,8 +136,8 @@ def update_task(
 @router.delete("/workspaces/{workspace_id}", status_code=204)
 def delete_task(
     workspace_id: int,
-    db: Session = Depends(get_db), # noqa: B008
-    current_user: UsersTable = Depends(get_current_user), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
+    current_user: UsersTable = Depends(get_current_user),  # noqa: B008
 ):
     task = (
         db.query(WorkspacesTable)
